@@ -156,8 +156,12 @@ describe('Rover command', () => {
     it('without any overflow', () => {
       let rover = new Rover(0, 0, 'N')
       rover.command('FFRFF')
-      console.log(rover.x, rover.y, rover.compass)
       assert(rover.x === 2 && rover.y === 2 && rover.compass === 'E')
+    })
+    it('with overflow', () => {
+      let rover = new Rover(90, 0, 'N')
+      rover.command('BRFFFFFFFFFFL')
+      assert(rover.x === 0 && rover.y === 99 && rover.compass === 'N')
     })
   })
 })

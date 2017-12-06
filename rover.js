@@ -2,8 +2,12 @@ let assert = require('assert')
 let acceptibleDirections = ['N', 'E', 'S', 'W']
 let numAcceptibleDirections = acceptibleDirections.length
 let acceptibleCommands = ['F', 'B', 'L', 'R']
+
+// We assume the grid is 100 x 100?
+let gridX = 100
+let gridY = 100
+
 let Rover = class {
-  // We assume the grid is 100 x 100?
   constructor (x, y, compass) {
     assert(typeof x === 'number')
     assert(typeof y === 'number')
@@ -25,10 +29,10 @@ let Rover = class {
       assert(acceptibleCommands.indexOf(instruction) !== -1)
       switch (instruction) {
         case 'F':
-          ++this.y
+          this.processForwardBackward(instruction, true)
           break
         case 'B':
-          --this.y
+          this.processForwardBackward(instruction, false)
           break
         case 'R':
           currentDirectionIndex = acceptibleDirections.indexOf(this.compass)
@@ -42,6 +46,30 @@ let Rover = class {
         default:
           throw Error('Error incorrect input instruction')
       }
+    }
+    this.x = ((this.x % gridX) + gridX) % gridX
+    this.y = ((this.y % gridY) + gridY) % gridY
+  }
+
+  processForwardBackward (instruction, isForward) {
+    let unit = 1
+    if (!isForward) {
+      unit *= -1
+    }
+    switch (this.compass) {
+      case 'N':
+        this.y += unit
+        break
+      case 'S':
+        this.y -= unit
+        break
+      case 'E':
+        this.x += unit
+        break
+      case 'W':
+        this.x -= unit
+        break
+      default:
     }
   }
 }
