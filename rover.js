@@ -1,5 +1,5 @@
 let assert = require('assert')
-let acceptibleDirections = ['N', 'S', 'E', 'W']
+let acceptibleDirections = ['N', 'E', 'S', 'W']
 let acceptibleCommands = ['F', 'B', 'L', 'R']
 let Rover = class {
   // We assume the grid is 100 x 100?
@@ -26,6 +26,12 @@ let Rover = class {
           ++this.y
           break
         case 'B':
+          --this.y
+          break
+        case 'R':
+          ++this.y
+          break
+        case 'L':
           --this.y
           break
         default:
