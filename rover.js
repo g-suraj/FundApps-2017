@@ -1,5 +1,6 @@
 let assert = require('assert')
 let acceptibleDirections = ['N', 'S', 'E', 'W']
+let acceptibleCommands = ['F', 'B', 'L', 'R']
 let Rover = class {
   // We assume the grid is 100 x 100?
   constructor (x, y, compass) {
@@ -16,7 +17,9 @@ let Rover = class {
   }
 
   command (instructions) {
+    assert(typeof instructions === 'string')
     for (var i = 0; i < instructions.length; i++) {
+      assert(acceptibleCommands.indexOf(instructions[i]) !== -1)
     }
   }
 }

@@ -3,7 +3,7 @@ let assert = require('assert')
 describe('Rover Instance', () => {
   it('basic sanity check', () => {
     let rover = new Rover(1, 2, 'N')
-    assert(rover.x === 2)
+    assert(rover.x === 1)
     assert(rover.y === 2)
     assert(rover.compass === 'N')
   })
@@ -61,11 +61,39 @@ describe('Rover Instance', () => {
   })
 })
 
-describe('Rover Command', () => {
+describe('Rover command', () => {
   const rover = new Rover(0, 0, 'N')
-  it('Command string should be a string', () => {
-    assert.throws(() => {
-      rover.command('Not A Valid String')
-    }, Error)
+  describe('Should be a valid command', () => {
+    it('Command string should be a string', () => {
+      assert.throws(() => {
+        rover.command(11111)
+      }, Error)
+    })
+
+    it('Command string should be a valid string', () => {
+      assert.throws(() => {
+        rover.command('This is not a valid string')
+      }, Error)
+    })
+  })
+  describe('Should be a perform forward and backwards commands', () => {
+    it('with any forward command', () => {
+      rover.command('FF')
+      assert(rover.y === 2)
+      rover.command('F')
+      assert(rover.y === 3)
+      rover.command('')
+      assert(rover.y === 3)
+    })
+    it('with any backwards command', () => {
+      rover.command('B')
+      assert(rover.y === 1)
+      rover.command('BB')
+      assert(rover.y === 0)
+      rover.command('')
+      assert(rover.y === 3)
+    })
+    it('with any forwards and backwards command', () => {
+    })
   })
 })
