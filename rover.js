@@ -19,7 +19,18 @@ let Rover = class {
   command (instructions) {
     assert(typeof instructions === 'string')
     for (var i = 0; i < instructions.length; i++) {
-      assert(acceptibleCommands.indexOf(instructions[i]) !== -1)
+      let instruction = instructions[i]
+      assert(acceptibleCommands.indexOf(instruction) !== -1)
+      switch (instruction) {
+        case 'F':
+          ++this.y
+          break
+        case 'B':
+          --this.y
+          break
+        default:
+          throw Error('Error incorrect input instruction')
+      }
     }
   }
 }

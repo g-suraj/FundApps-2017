@@ -87,11 +87,11 @@ describe('Rover command', () => {
     })
     it('with any backwards command', () => {
       rover.command('B')
-      assert(rover.y === 1)
+      assert(rover.y === 2)
       rover.command('BB')
       assert(rover.y === 0)
       rover.command('')
-      assert(rover.y === 3)
+      assert(rover.y === 0)
     })
     it('with any forwards and backwards command', () => {
     })
