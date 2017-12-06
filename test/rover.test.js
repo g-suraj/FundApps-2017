@@ -102,6 +102,10 @@ describe('Rover command', () => {
       assert(rover.y === 3)
       assert(rover.x === 0)
       assert(rover.compass === 'N')
+      rover.command('BBB')
+      assert(rover.y === 0)
+      assert(rover.x === 0)
+      assert(rover.compass === 'N')
     })
   })
   describe('Should be a perform left and right commands', () => {
@@ -132,6 +136,9 @@ describe('Rover command', () => {
       rover.command('RRRR')
       assert(rover.y === 0 && rover.x === 0)
       assert(rover.compass === 'N')
+      rover.command('')
+      assert(rover.y === 0 && rover.x === 0)
+      assert(rover.compass === 'N')
     })
     it('with any left & right command', () => {
       rover.command('RRL')
@@ -143,6 +150,14 @@ describe('Rover command', () => {
       rover.command('RLRLRLRL')
       assert(rover.y === 0 && rover.x === 0)
       assert(rover.compass === 'N')
+    })
+  })
+  describe('Should be a perform all 4 commands', () => {
+    it('without any overflow', () => {
+      let rover = new Rover(0, 0, 'N')
+      rover.command('FFRFF')
+      console.log(rover.x, rover.y, rover.compass)
+      assert(rover.x === 2 && rover.y === 2 && rover.compass === 'E')
     })
   })
 })

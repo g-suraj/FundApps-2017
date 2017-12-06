@@ -1,5 +1,6 @@
 let assert = require('assert')
 let acceptibleDirections = ['N', 'E', 'S', 'W']
+let numAcceptibleDirections = acceptibleDirections.length
 let acceptibleCommands = ['F', 'B', 'L', 'R']
 let Rover = class {
   // We assume the grid is 100 x 100?
@@ -17,6 +18,7 @@ let Rover = class {
   }
 
   command (instructions) {
+    let currentDirectionIndex
     assert(typeof instructions === 'string')
     for (var i = 0; i < instructions.length; i++) {
       let instruction = instructions[i]
@@ -29,10 +31,13 @@ let Rover = class {
           --this.y
           break
         case 'R':
-          ++this.y
+          currentDirectionIndex = acceptibleDirections.indexOf(this.compass)
+          this.compass = acceptibleDirections[(currentDirectionIndex + 1) % numAcceptibleDirections]
           break
         case 'L':
-          --this.y
+          currentDirectionIndex = acceptibleDirections.indexOf(this.compass)
+          let newIndex = (((currentDirectionIndex - 1) % numAcceptibleDirections) + numAcceptibleDirections) % numAcceptibleDirections
+          this.compass = acceptibleDirections[newIndex]
           break
         default:
           throw Error('Error incorrect input instruction')
