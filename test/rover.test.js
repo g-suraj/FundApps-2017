@@ -1,4 +1,5 @@
-let Rover = require('../rover')
+let Rover = require('../rover').Rover
+let addObstacle = require('../rover').addObstacle
 let assert = require('assert')
 describe('Rover Instance', () => {
   it('basic sanity check', () => {
@@ -163,5 +164,19 @@ describe('Rover command', () => {
       rover.command('BRFFFFFFFFFFL')
       assert(rover.x === 0 && rover.y === 99 && rover.compass === 'N')
     })
+  })
+})
+describe('Rover obstacle detection', () => {
+  it('should detect an obstacle', () => {
+    let rover = new Rover(0, 0, 'E')
+    addObstacle(1, 1)
+    rover.command('FLF')
+    assert(rover.x === 1 && rover.y === 0 && rover.compass === 'N')
+  })
+  it('should detect an obstacle try 2', () => {
+    let rover = new Rover(99, 0, 'E')
+    addObstacle(0, 0)
+    rover.command('F')
+    assert(rover.x === 99 && rover.y === 0 && rover.compass === 'E')
   })
 })

@@ -2,10 +2,16 @@ let assert = require('assert')
 let acceptibleDirections = ['N', 'E', 'S', 'W']
 let numAcceptibleDirections = acceptibleDirections.length
 let acceptibleCommands = ['F', 'B', 'L', 'R']
+let obstacles = []
 
 // We assume the grid is 100 x 100?
 let gridX = 100
 let gridY = 100
+// Just a helper function to add obstacles to the grid.
+// Not related to rover's knowledge of obstacles
+let addObstacle = function (x, y) {
+  obstacles.push([x, y])
+}
 
 let Rover = class {
   constructor (x, y, compass) {
@@ -19,6 +25,8 @@ let Rover = class {
     this.x = x
     this.y = y
     this.compass = compass
+    // The rover logs all obstacles detected
+    this.obstaclesLogged = []
   }
 
   command (instructions) {
@@ -47,31 +55,44 @@ let Rover = class {
           throw Error('Error incorrect input instruction')
       }
     }
-    this.x = ((this.x % gridX) + gridX) % gridX
-    this.y = ((this.y % gridY) + gridY) % gridY
   }
 
   processForwardBackward (instruction, isForward) {
     let unit = 1
+    let yUnit = 0
+    let xUnit = 0
     if (!isForward) {
       unit *= -1
     }
     switch (this.compass) {
       case 'N':
-        this.y += unit
+        yUnit += unit
         break
       case 'S':
-        this.y -= unit
+        yUnit -= unit
         break
       case 'E':
-        this.x += unit
+        xUnit += unit
         break
       case 'W':
-        this.x -= unit
+        xUnit -= unit
         break
       default:
     }
+    // Handle obstacle
+    let potentialX = (((this.x + xUnit) % gridX) + gridX) % gridX
+    let potentialY = (((this.y + yUnit) % gridY) + gridY) % gridY
+    let potentialObstacle = [potentialX, potentialY]
+    for (var i = 0; i < obstacles.length; i++) {
+      if (obstacles[i].toString() === potentialObstacle.toString()) {
+        this.obstaclesLogged.push(potentialObstacle)
+        return
+      }
+    }
+    this.x = potentialX
+    this.y = potentialY
   }
 }
 
-module.exports = Rover
+module.exports.Rover = Rover
+module.exports.addObstacle = addObstacle
