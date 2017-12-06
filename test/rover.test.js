@@ -84,6 +84,8 @@ describe('Rover command', () => {
       assert(rover.y === 3)
       rover.command('')
       assert(rover.y === 3)
+      assert(rover.x === 0)
+      assert(rover.compass === 'N')
     })
     it('with any backwards command', () => {
       rover.command('B')
@@ -92,6 +94,8 @@ describe('Rover command', () => {
       assert(rover.y === 0)
       rover.command('')
       assert(rover.y === 0)
+      assert(rover.x === 0)
+      assert(rover.compass === 'N')
     })
     it('with any forwards and backwards command', () => {
     })
