@@ -177,6 +177,6 @@ describe('Rover obstacle detection', () => {
     let rover = new Rover(99, 0, 'E')
     addObstacle(0, 0)
     rover.command('F')
-    assert(rover.x === 99 && rover.y === 0 && rover.compass === 'E')
+    assert(rover.x === 99 && rover.y === 0 && rover.compass === 'E' && rover.obstaclesLogged.length === 1)
   })
 })
